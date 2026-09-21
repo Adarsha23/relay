@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Relay — "Graphite & Signal". Dark-first: values live on :root; <html> carries .dark. */
+:root {
+  --background: #0c0d10; /* canvas */
+  --foreground: #e7e9ee; /* primary text */
+  --card: #131418; /* panels, sidebar surfaces */
+  --card-foreground: #e7e9ee;
+  --popover: #1c1e24; /* overlays: command palette, menus */
+  --popover-foreground: #e7e9ee;
+  --primary: #f5b544; /* signal amber — primary action, "live/now" */
+  --primary-foreground: #17130a; /* near-black on amber */
+  --secondary: #1a1c22; /* raised surface */
+  --secondary-foreground: #e7e9ee;
+  --muted: #17181d;
+  --muted-foreground: #9ca1ad; /* secondary text */
+  --accent: #1a1c22; /* row / menu-item hover surface */
+  --accent-foreground: #e7e9ee;
+  --destructive: #e5484d; /* urgent, delete */
+  --border: #24262e; /* hairline */
+  --input: #24262e;
+  --ring: #f5b544; /* amber focus ring */
+  --radius: 0.5rem;
+  --sidebar: #0f1014;
+  --sidebar-foreground: #e7e9ee;
+  --sidebar-primary: #f5b544;
+  --sidebar-primary-foreground: #17130a;
+  --sidebar-accent: #1a1c22;
+  --sidebar-accent-foreground: #e7e9ee;
+  --sidebar-border: #24262e;
+  --sidebar-ring: #f5b544;
+  /* status/priority hues arrive in Phase 3; charts kept sensible for now */
+  --chart-1: #f5b544;
+  --chart-2: #4cc8a3;
+  --chart-3: #6aa0ff;
+  --chart-4: #c98be0;
+  --chart-5: #9ca1ad;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Signature moment: a row flashes amber when a change arrives from another client. */
+@keyframes relay-pulse {
+  0% {
+    box-shadow: inset 2px 0 0 var(--primary);
+    background-color: color-mix(in srgb, var(--primary) 16%, transparent);
+  }
+  100% {
+    box-shadow: inset 2px 0 0 transparent;
+    background-color: transparent;
+  }
+}
+.relay-pulse {
+  animation: relay-pulse 0.7s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .relay-pulse {
+    animation: none;
+  }
+  /* Baseline: honor reduced-motion everywhere, not just our pulse. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
